@@ -1,0 +1,29 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.movie-wrapper {
+  position: relative;
+  z-index: 1;
+}
+.movie-wrapper .movie {
+  position: relative;
+  z-index: 1;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.movie-wrapper .movie .movie-box {
+  margin: 0.5px;
+  display: inline-block;
+  cursor: pointer;
+}
+.movie-wrapper .movie img {
+  width: 200px;
+  height: 300px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}/*# sourceMappingURL=App.css.map */

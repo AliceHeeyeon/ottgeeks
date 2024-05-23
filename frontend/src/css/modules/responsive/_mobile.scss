@@ -1,0 +1,25 @@
+
+.movie-wrapper {
+    position: relative;
+    z-index: 1;
+
+    .movie {
+        position: relative;
+        z-index: 1;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    
+        .movie-box {
+            margin: 0.5px;
+            display: inline-block;
+            cursor: pointer;
+        }
+        img {
+            width: 200px;
+            height: 300px;
+            object-fit: cover;
+        }
+    }
+}
