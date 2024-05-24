@@ -1,25 +1,217 @@
+body {
+    background-color: $black;
+    font-family: $text-font;
+}
 
-.movie-wrapper {
-    position: relative;
-    z-index: 1;
+//Nav
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: $black;
+    color: $white;
+    padding: 30px;
 
-    .movie {
-        position: relative;
-        z-index: 1;
-        white-space: nowrap;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    
-        .movie-box {
-            margin: 0.5px;
-            display: inline-block;
-            cursor: pointer;
+    .logo {
+        font-family: $logo-font;
+        font-size: 20px;
+    }
+
+    .buttons {
+        button {
+            @include mobile-button;
         }
-        img {
-            width: 200px;
-            height: 300px;
-            object-fit: cover;
+
+        .login-btn {
+            margin-left: 5px;
+            background-color: transparent;
+            color: $white;
+            border: 1px solid $white;
+        }
+
+        .signup-btn {
+            background-color: $white;
+
+        }
+    }
+}
+
+//Home
+.page {
+    background-color: $black;
+    padding-inline: 30px;
+
+    .hero-section {
+        .hero-box {
+            position: relative;
+
+            h2 {
+                position: absolute;
+                top: 20px;
+                left: 30px;
+                font-family: $hero-font;
+                line-height: 32px;
+            }
+
+            img {
+                border-radius: 30px;
+                width: 100%;
+                height: 200px;
+                object-fit: cover;
+            }
+
+            button {
+                position: absolute;
+                bottom: 20px;
+                right: 30px;
+                border: 1px solid $black;
+                background-color: $black;
+                color: $white;
+                @include mobile-button;
+                
+            }
+        }
+        .hero1 {
+            color: $white;
+            margin-bottom: 10px;
+        }
+    }
+
+    .category-section {
+        .category-wrapper ul{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            color: $white;
+            list-style: none;
+            gap: 10px;
+            margin: 30px 0px;
+
+            li {
+                @include flex-center;
+                background-color: $transparent-white;
+                padding: 10px 0px;
+                border-radius: 30px;
+                font-size: 14px;
+
+                p {
+                   height: 16px;
+                }
+
+                svg {
+                    width: 16px;
+                    height: 16px;
+                    margin-right: 2px;
+                }
+            }
+        }
+    }
+
+    //for mobile swiper
+    .movie-container {
+        overflow: hidden;
+        padding-bottom: 30px;
+    }
+
+    .movie-section {
+        overflow: hidden;
+        scroll-behavior: smooth;
+        .movie-wrapper {
+            display: flex;
+            align-items: center;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            gap: 10px;
+
+            .movie-box img{
+                width: 200px;
+                height: 280px;
+                object-fit: cover;
+            }
+        }
+    }
+}
+
+//Footer
+footer {
+    background-color: $transparent-white;
+    color: white;
+    padding: 20px 30px;
+    .footer-menu {
+        margin-bottom: 20px;
+        ul {
+            @include flex-center;
+            list-style: none;
+            gap: 10px;
+            font-size: 14px;
+        }
+    }
+
+    .footer-social {
+        @include flex-center;
+        gap: 30px;
+        svg {
+            width: 30px;
+            height: 30px;
+        }
+    }
+
+    .footer-copyright {
+        @include flex-center;
+        margin-top: 15px;
+        p {
+            font-size: 12px;
+        }
+    }
+}
+
+//Single page
+.single-page {
+    background-color: $white;
+
+    .movie-poster {
+        padding: 50px;
+        width: 100%;
+        border-bottom: 1px solid $black;
+
+        .singleMovie-image {
+            @include flex-center;
+            img {
+                width: 250px;
+                max-height: 500px;
+                object-fit: cover;
+            }
+        }
+
+        .singleMovie-text {
+            text-align: center;
+            margin-top: 30px;
+
+            .movie-rating {
+                margin-top: 5px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                .rating-stars {
+                    margin-left: 10px;
+                }
+            }
+        }
+    }
+
+    .movie-details {
+        padding: 20px 30px 30px;
+        border-bottom: 1px solid $black;
+        .details {
+            display: flex;
+            margin-top: 10px;
+            .detail-title {
+                width: 140px;
+            }
+            .detail-contents {
+                width: 100%;
+                line-height: 22px;
+            }
+
         }
     }
 }

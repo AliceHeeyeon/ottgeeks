@@ -3,3 +3,28 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+//Color 
+$black : #191919;
+$white: #ffffff;
+$transparent-white: #ffffff20;
+$red: #EC011C;
+
+//Font
+$logo-font: "Lilita One", sans-serif;
+$hero-font: "Baloo Chettan 2", sans-serif;
+$text-font: "Oxanium", sans-serif;
+
+//Mixins
+@mixin mobile-button {
+    border-radius: 30px;
+    padding: 8px 18px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

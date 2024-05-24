@@ -7,8 +7,8 @@ const Header = () => {
       </div>
 
       <div className="buttons">
-        <button>Sign Up</button>
-        <button>Login</button>
+        <button className="signup-btn">Sign Up</button>
+        <button className="login-btn">Login</button>
       </div>
     </div>
   )

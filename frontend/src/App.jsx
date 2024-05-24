@@ -3,6 +3,7 @@ import './css/App.css'
 
 //Pages
 import Home from './pages/Home'
+import SingleMovie from './pages/SingleMovie'
 
 //Components
 import Header from './components/Header'
@@ -15,6 +16,7 @@ function App() {  return (
           <div className='pages'>
             <Routes>
                 <Route path='/' element={<Home />}/>
+                <Route path='/:id' element={<SingleMovie />}/>
             </Routes>
         <Footer />
           </div>

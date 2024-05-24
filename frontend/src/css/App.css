@@ -1,29 +1,207 @@
+@import url("https://fonts.googleapis.com/css2?family=Baloo+Chettan+2:wght@400..800&family=Lilita+One&family=Oxanium:wght@200..800&display=swap");
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-.movie-wrapper {
-  position: relative;
-  z-index: 1;
+body {
+  background-color: #191919;
+  font-family: "Oxanium", sans-serif;
 }
-.movie-wrapper .movie {
-  position: relative;
-  z-index: 1;
-  white-space: nowrap;
+
+.header {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  background-color: #191919;
+  color: #ffffff;
+  padding: 30px;
 }
-.movie-wrapper .movie .movie-box {
-  margin: 0.5px;
-  display: inline-block;
+.header .logo {
+  font-family: "Lilita One", sans-serif;
+  font-size: 20px;
+}
+.header .buttons button {
+  border-radius: 30px;
+  padding: 8px 18px;
+  font-size: 13px;
   cursor: pointer;
 }
-.movie-wrapper .movie img {
-  width: 200px;
-  height: 300px;
+.header .buttons .login-btn {
+  margin-left: 5px;
+  background-color: transparent;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+}
+.header .buttons .signup-btn {
+  background-color: #ffffff;
+}
+
+.page {
+  background-color: #191919;
+  padding-inline: 30px;
+}
+.page .hero-section .hero-box {
+  position: relative;
+}
+.page .hero-section .hero-box h2 {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  font-family: "Baloo Chettan 2", sans-serif;
+  line-height: 32px;
+}
+.page .hero-section .hero-box img {
+  border-radius: 30px;
+  width: 100%;
+  height: 200px;
   -o-object-fit: cover;
      object-fit: cover;
+}
+.page .hero-section .hero-box button {
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+  border: 1px solid #191919;
+  background-color: #191919;
+  color: #ffffff;
+  border-radius: 30px;
+  padding: 8px 18px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.page .hero-section .hero1 {
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+.page .category-section .category-wrapper ul {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  color: #ffffff;
+  list-style: none;
+  gap: 10px;
+  margin: 30px 0px;
+}
+.page .category-section .category-wrapper ul li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.1254901961);
+  padding: 10px 0px;
+  border-radius: 30px;
+  font-size: 14px;
+}
+.page .category-section .category-wrapper ul li p {
+  height: 16px;
+}
+.page .category-section .category-wrapper ul li svg {
+  width: 16px;
+  height: 16px;
+  margin-right: 2px;
+}
+.page .movie-container {
+  overflow: hidden;
+  padding-bottom: 30px;
+}
+.page .movie-section {
+  overflow: hidden;
+  scroll-behavior: smooth;
+}
+.page .movie-section .movie-wrapper {
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 10px;
+}
+.page .movie-section .movie-wrapper .movie-box img {
+  width: 200px;
+  height: 280px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+footer {
+  background-color: rgba(255, 255, 255, 0.1254901961);
+  color: white;
+  padding: 20px 30px;
+}
+footer .footer-menu {
+  margin-bottom: 20px;
+}
+footer .footer-menu ul {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  gap: 10px;
+  font-size: 14px;
+}
+footer .footer-social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+footer .footer-social svg {
+  width: 30px;
+  height: 30px;
+}
+footer .footer-copyright {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+}
+footer .footer-copyright p {
+  font-size: 12px;
+}
+
+.single-page {
+  background-color: #ffffff;
+}
+.single-page .movie-poster {
+  padding: 50px;
+  width: 100%;
+  border-bottom: 1px solid #191919;
+}
+.single-page .movie-poster .singleMovie-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.single-page .movie-poster .singleMovie-image img {
+  width: 250px;
+  max-height: 500px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.single-page .movie-poster .singleMovie-text {
+  text-align: center;
+  margin-top: 30px;
+}
+.single-page .movie-poster .singleMovie-text .movie-rating {
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.single-page .movie-poster .singleMovie-text .movie-rating .rating-stars {
+  margin-left: 10px;
+}
+.single-page .movie-details {
+  padding: 20px 30px 30px;
+  border-bottom: 1px solid #191919;
+}
+.single-page .movie-details .details {
+  display: flex;
+  margin-top: 10px;
+}
+.single-page .movie-details .details .detail-title {
+  width: 140px;
+}
+.single-page .movie-details .details .detail-contents {
+  width: 100%;
+  line-height: 22px;
 }/*# sourceMappingURL=App.css.map */

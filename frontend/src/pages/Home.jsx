@@ -1,20 +1,27 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import $ from "jquery";
+import { useSwipeable } from "react-swipeable";
 
-gsap.registerPlugin(ScrollTrigger);
-
-ScrollTrigger.defaults({
-  markers: false
-});
+//icons
+import { TbMickeyFilled } from "react-icons/tb";
+import { HiMiniFire } from "react-icons/hi2";
+import { FaBookOpen } from "react-icons/fa6";
+import { BsRobot } from "react-icons/bs";
+import { FaGun } from "react-icons/fa6";
+import { FaGhost } from "react-icons/fa";
+import { PiMaskHappy } from "react-icons/pi";
+import { GiMagicBroom } from "react-icons/gi";
 
 const baseUrl = import.meta.env.VITE_BASEURL;
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
   const [movies, setMovies] = useState([]);
+  const movieWrapperRef = useRef(null);
+  const movieSectionRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -30,68 +37,103 @@ const Home = () => {
     };
 
     fetchMovies();
+
+    const handleMouseMove = (event) => {
+      const clientX = event.clientX;
+      const clientY = event.clientY;
+      const innerWidth = window.innerWidth;
+
+      if (movieSectionRef.current) {
+        const rect = movieSectionRef.current.getBoundingClientRect();
+        const inMovieSection = clientY >= rect.top && clientY <= rect.bottom;
+
+        if (inMovieSection) {
+          if (clientX > innerWidth - 100) {
+            if (movieWrapperRef.current) {
+              gsap.to(movieWrapperRef.current, 
+                { scrollLeft: movieWrapperRef.current.scrollLeft + 50, 
+                  duration: 0.5
+                }
+              )
+            }
+          } else if (clientX < 100) {
+            if (movieWrapperRef.current) {
+              gsap.to(movieWrapperRef.current, 
+                { scrollLeft: movieWrapperRef.current.scrollLeft - 50, 
+                  duration: 0.5 
+                }
+              );
+            }
+          }
+        }
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+
   }, []);
 
-  useEffect(() => {
-    if (movies.length > 0) {
-      const movieWrapper = $(".movie-wrapper");
-      const movie = $(".movie");
-
-      const movieBoxWidth = $(".movie-box").outerWidth(true);
-      const movieWidth = movieBoxWidth * movies.length;
-      movie.css("width", movieWidth);
-
-      const tl = gsap.timeline();
-      tl.to(movie, {
-        x: `-${movieWidth - movieWrapper.width()}`,
-        scrollTrigger: {
-          trigger: movieWrapper,
-          start: 'top top',
-          end: `+=${movieWidth - movieWrapper.width()}`,
-          pin: true,
-          scrub: 0.5
-        }
-      });
-    }
-  }, [movies]);
+  const handlers = useSwipeable({
+    onSwipedLeft: () => {
+      if (movieWrapperRef.current) {
+        movieWrapperRef.current.scrollLeft += 200; // Adjust scroll amount as needed
+      }
+    },
+    onSwipedRight: () => {
+      if (movieWrapperRef.current) {
+        movieWrapperRef.current.scrollLeft -= 200; // Adjust scroll amount as needed
+      }
+    },
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true
+  });
 
   return (
     <div className="home page">
 
       <div className="hero-section">
-        <div className="hero1">
-          <h2>Let the geeks guide you to your next binge-worthy show</h2>
+        <div className="hero-box hero1">
+          <h2>Let the geeks guide<br/> you to your next<br/> binge-worthy show</h2>
           <img src="/hero1.png" alt="hero1"/>
         </div>
-        <div className="hero2">
-          <h2>Share your reviews with millions of fellow binge-watchers!</h2>
+        <div className="hero-box hero2">
+          <h2>Share your reviews with<br/> millions of fellow<br/> binge-watchers!</h2>
           <img src="/hero2.png" alt="hero2"/>
+          <button className="joinTheGeeks-btn">Join the Geeks</button>
         </div>
       </div>
 
       <div className="category-section">
         <div className="category-wrapper">
           <ul>
-            <li>Trending</li>
-            <li>Drama</li>
-            <li>S.Fiction</li>
-            <li>Crime</li>
-            <li>Horror</li>
-            <li>Comedy</li>
-            <li>Fantasy</li>
-            <li>Animation</li>
+            <li><HiMiniFire /><p>Trending</p></li>
+            <li><FaBookOpen /><p>Drama</p></li>
+            <li><BsRobot /><p>S.Fiction</p></li>
+            <li><FaGun /><p>Crime</p></li>
+            <li><FaGhost /><p>Horror</p></li>
+            <li><PiMaskHappy /><p>Comedy</p></li>
+            <li><GiMagicBroom /><p>Fantasy</p></li>
+            <li><TbMickeyFilled /><p>Animation</p></li>
           </ul>
         </div>
       </div>
       
-      <div className="contents">
-        <div className="movie-wrapper">
-          <div className="movie">
-            {movies.map((movie, index) => (
-              <div className="movie-box" key={movie.id}>
-                <img src={movie.image_url} alt={movie.title} />
-              </div>
-            ))}
+      <div className="movie-container" {...handlers}>
+        <div className="movie-section" ref={movieSectionRef}>
+          <div className="movie-wrapper" ref={movieWrapperRef}>
+              {movies.map((movie, index) => (
+                <div className="movie-box" key={movie.id}>
+                  <img 
+                    src={movie.image_url} 
+                    alt={movie.title} 
+                    onClick={() => navigate(`/${movie.id}`)}
+                  />
+                </div>
+              ))}
           </div>
         </div>
       </div>
