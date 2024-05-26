@@ -3,7 +3,6 @@ import { useParams, useNavigate } from "react-router-dom"
 import axios from "axios";
 import { FaStar } from "react-icons/fa6";
 import { FaRegStarHalfStroke } from "react-icons/fa6";
-import { FaRegStar } from "react-icons/fa6";
 
 const baseUrl = import.meta.env.VITE_BASEURL;
 
@@ -12,7 +11,9 @@ const SingleMovie = () => {
     const {id} = useParams();
     const [movie, setMovie] = useState(null);
     const [reviews, setReviews] = useState("");
-    const [loading, setLoading] = useState(true)
+    const [user, setUser] = useState(null)
+    const [loading, setLoading] = useState(true);
+
 
     useEffect(() => {
         setLoading(true)
@@ -46,23 +47,23 @@ const SingleMovie = () => {
         })
     },[id])
 
-    if (!movie) {
+    if (loading) {
         return <div>Loading...</div>;  
     }
 
     const getStars = (rating) => {
         const fullStars = Math.floor(rating); 
-        const hasHalfStar = rating - fullStars > 0.3;                                        
-        const fullStarsArray = Array(fullStars).fill(null).map((_, index) => <FaStar key={`full-${index}`} />);
+        const hasHalfStar = (rating - fullStars) >= 0.3 && (rating - fullStars) < 0.8; 
+        const additionalFullStar = (rating - fullStars) >= 0.8 ? 1 : 0; 
+        const fullStarsArray = Array.from({ length: fullStars + additionalFullStar }, (_, index) => <FaStar key={`full-${index}`} />);
         const halfStar = hasHalfStar ? <FaRegStarHalfStroke key="half" /> : null;
-        
+
         return [...fullStarsArray, halfStar].filter(Boolean);
     };
 
     const avgRating = reviews.length > 0 
-        ? (reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length).toFixed(1)
+        ? (reviews.reduce((sum, review) => sum + parseFloat(review.rating), 0) / reviews.length).toFixed(2)
         : "No reviews";
-
 
   return (
     <div className="single-page">
@@ -76,7 +77,8 @@ const SingleMovie = () => {
             <div className="movie-rating">
                 <p>Avg Rating</p>
                 <div className="rating-stars">
-                    {avgRating !== "No reviews" ? getStars(avgRating) : "No reviews"}
+                    {avgRating !== "No reviews" ? getStars(avgRating) : ""}
+                    <span>{avgRating}</span>
                 </div>
             </div>
         </div>
@@ -84,33 +86,74 @@ const SingleMovie = () => {
 
       <div className="movie-details">
         <div className="genre details">
-            <h4 className="detail-title">Genre</h4>
+            <h4 className="detail-title title-style">Genre</h4>
             <p className="detail-contents">{movie.genre}</p>
         </div>
         <div className="director details">
-            <h4 className="detail-title">Director</h4>
+            <h4 className="detail-title title-style">Director</h4>
             <p className="detail-contents">{movie.director}</p>
         </div>
         <div className="synopsis details">
-            <h4 className="detail-title">Synopsis</h4>
+            <h4 className="detail-title title-style">Synopsis</h4>
             <p className="detail-contents">{movie.description}</p>
         </div>
       </div>
 
       <div className="movie-reviews">
-        <h4>Reviews</h4>
+        <h4 className="title-style">Reviews</h4>
         
         {reviews.length > 0 ? (
             reviews.map(review => (
-                <div key={review.id}>
-                    <p>{review.userName}</p>
-                    <p>{getStars(review.rating)}</p>
-                    <p>{review.review}</p>
+                <div className="review-container" key={review.id}>
+                    <div className="review-box">
+                        <p className="review-name">{review.userName}</p>
+                        <p className="review-rating">{getStars(review.rating)}<span>{review.rating}</span></p>
+                    </div>
+                   
+                    <p className="review-text">{review.review}</p>
                 </div>
             ))
         ) : (
             <p>No reviews for this movie.</p>
         )}
+      </div>
+
+      <div className="write-movie-review">
+        <h4 className="title-style">Write a Review</h4>
+        <div className="review-input-box">
+            <div className="input-rating input-style">
+                <div className="label">
+                    <label>Rating</label>
+                </div>
+                <input
+                    type="number"
+                    placeholder="Out of 5"
+                    step="0.1"
+                    min="1"
+                    max="5"
+                />
+            </div>
+            <div className="input-text input-style">
+                <div className="label">
+                    <label>Review</label>
+                </div>
+                <textarea
+                    type="text"
+                    placeholder="Thanks for helping other geekers!"
+                />
+            </div>
+            <div className="review-submit-btn">
+               {!user ? 
+                 <button
+                 onClick = {() => navigate('/login')}
+                >
+                 Login to Submit
+                </button> :
+                <button>Submit</button>
+               }
+            </div>
+            
+        </div>
       </div>
 
     </div>

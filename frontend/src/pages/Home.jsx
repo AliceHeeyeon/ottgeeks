@@ -80,12 +80,12 @@ const Home = () => {
   const handlers = useSwipeable({
     onSwipedLeft: () => {
       if (movieWrapperRef.current) {
-        movieWrapperRef.current.scrollLeft += 200; // Adjust scroll amount as needed
+        movieWrapperRef.current.scrollLeft += 200; 
       }
     },
     onSwipedRight: () => {
       if (movieWrapperRef.current) {
-        movieWrapperRef.current.scrollLeft -= 200; // Adjust scroll amount as needed
+        movieWrapperRef.current.scrollLeft -= 200;
       }
     },
     preventDefaultTouchmoveEvent: true,
