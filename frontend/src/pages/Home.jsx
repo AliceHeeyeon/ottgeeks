@@ -14,11 +14,16 @@ import { FaGhost } from "react-icons/fa";
 import { PiMaskHappy } from "react-icons/pi";
 import { GiMagicBroom } from "react-icons/gi";
 
+//loading spinner
+import CircularProgress from '@mui/material/CircularProgress';
+
 const baseUrl = import.meta.env.VITE_BASEURL;
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
-  const [movies, setMovies] = useState([]);
+  const [allMovies, setAllMovies] = useState([]);
+  const [filteredMovies, setFilteredMovies] = useState([]);
+  const [category, setCategory] = useState("");
   const movieWrapperRef = useRef(null);
   const movieSectionRef = useRef(null);
   const navigate = useNavigate();
@@ -26,10 +31,13 @@ const Home = () => {
   useEffect(() => {
     const fetchMovies = async () => {
       setLoading(true);
+      
       try {
-        const response = await axios.get(`${baseUrl}/movies`);
-        setMovies(response.data);
-        setLoading(false);
+        const response = await axios.get(`${baseUrl}/movies`)
+        setAllMovies(response.data);
+        setFilteredMovies(response.data);
+        setTimeout(() => { setLoading(false) }, 1000);
+        return () => clearTimeout(timeout);
       } catch (error) {
         console.error("Error fetching movies:", error);
         setLoading(false);
@@ -77,6 +85,26 @@ const Home = () => {
 
   }, []);
 
+  useEffect(() => {
+    const filterMovies = () => {
+      if (category === 'trending') {
+        const sortedMovies = [...allMovies].sort((a, b) => new Date(b.release_date) - new Date(a.release_date));
+        setFilteredMovies(sortedMovies);
+      } else if (category) {
+        const filtered = allMovies.filter(movie => {
+          const firstGenre = movie.genre.split(",")[0].trim().toLowerCase();
+          return firstGenre === category.toLowerCase();
+        });
+        setFilteredMovies(filtered);
+      } else {
+        setFilteredMovies(allMovies);
+      }
+    };
+
+    filterMovies();
+  }, [category, allMovies]);
+
+
   const handlers = useSwipeable({
     onSwipedLeft: () => {
       if (movieWrapperRef.current) {
@@ -92,52 +120,78 @@ const Home = () => {
     trackMouse: true
   });
 
+  const handleCategoryClick = (category) => {
+    setCategory(category);
+  }
+
   return (
     <div className="home page">
-
-      <div className="hero-section">
-        <div className="hero-box hero1">
-          <h2>Let the geeks guide<br/> you to your next<br/> binge-worthy show</h2>
-          <img src="/hero1.png" alt="hero1"/>
+       {loading ? (
+        <div className="loading">
+          <svg width={0} height={0}>
+            <defs>
+              <linearGradient id="my_gradient">
+                <stop offset="0%" stopColor="#EC011C" />
+                <stop offset="100%" stopColor="#F55466" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <CircularProgress sx={{'svg circle': { stroke: 'url(#my_gradient)' } }} />
+          <p className="text-loading">Loading</p>
         </div>
-        <div className="hero-box hero2">
-          <h2>Share your reviews with<br/> millions of fellow<br/> binge-watchers!</h2>
-          <img src="/hero2.png" alt="hero2"/>
-          <button className="joinTheGeeks-btn">Join the Geeks</button>
-        </div>
-      </div>
-
-      <div className="category-section">
-        <div className="category-wrapper">
-          <ul>
-            <li><HiMiniFire /><p>Trending</p></li>
-            <li><FaBookOpen /><p>Drama</p></li>
-            <li><BsRobot /><p>S.Fiction</p></li>
-            <li><FaGun /><p>Crime</p></li>
-            <li><FaGhost /><p>Horror</p></li>
-            <li><PiMaskHappy /><p>Comedy</p></li>
-            <li><GiMagicBroom /><p>Fantasy</p></li>
-            <li><TbMickeyFilled /><p>Animation</p></li>
-          </ul>
-        </div>
-      </div>
-      
-      <div className="movie-container" {...handlers}>
-        <div className="movie-section" ref={movieSectionRef}>
-          <div className="movie-wrapper" ref={movieWrapperRef}>
-              {movies.map((movie, index) => (
-                <div className="movie-box" key={movie.id}>
-                  <img 
-                    src={movie.image_url} 
-                    alt={movie.title} 
-                    onClick={() => navigate(`/${movie.id}`)}
-                  />
-                </div>
-              ))}
+        ) : (
+        <>
+          <div className="hero-section">
+            <div className="hero-box hero1">
+              <h2>Let the geeks guide<br/> you to your next<br/> binge-worthy show</h2>
+              <img src="/hero1.png" alt="hero1"/>
+            </div>
+            <div className="hero-box hero2">
+              <h2>Share your reviews with<br/> millions of fellow<br/> binge-watchers!</h2>
+              <img src="/hero2.png" alt="hero2"/>
+              <button 
+                className="joinTheGeeks-btn"
+                onClick={() => navigate('/signup')}
+              >
+                Join the Geeks
+              </button>
+            </div>
           </div>
-        </div>
-      </div>
+
+          <div className="category-section">
+            <div className="category-wrapper">
+              <ul>
+                <li onClick={() => handleCategoryClick('trending')}><HiMiniFire /><p>Trending</p></li>
+                <li onClick={() => handleCategoryClick('drama')}><FaBookOpen /><p>Drama</p></li>
+                <li onClick={() => handleCategoryClick('science fiction')}><BsRobot /><p>S.Fiction</p></li>
+                <li onClick={() => handleCategoryClick('crime')}><FaGun /><p>Crime</p></li>
+                <li onClick={() => handleCategoryClick('horror')}><FaGhost /><p>Horror</p></li>
+                <li onClick={() => handleCategoryClick('comedy')}><PiMaskHappy /><p>Comedy</p></li>
+                <li onClick={() => handleCategoryClick('fantasy')}><GiMagicBroom /><p>Fantasy</p></li>
+                <li onClick={() => handleCategoryClick('animation')}><TbMickeyFilled /><p>Animation</p></li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="movie-container" {...handlers}>
+            <div className="movie-section" ref={movieSectionRef}>
+              <div className="movie-wrapper" ref={movieWrapperRef}>
+                  {filteredMovies.map((movie, index) => (
+                    <div className="movie-box" key={movie.id}>
+                      <img 
+                        src={movie.image_url} 
+                        alt={movie.title} 
+                        onClick={() => navigate(`/${movie.id}`)}
+                      />
+                    </div>
+                  ))}
+              </div>
+            </div>
+          </div>
+          </>
+        )}
     </div>
+   
   );
 };
 

@@ -37,7 +37,19 @@ button {
   font-family: "Oxanium", sans-serif;
 }
 
-.header {
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+.loading .text-loading {
+  margin-left: 10px;
+  font-size: 18px;
+  color: #ffffff;
+}
+
+header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -45,25 +57,38 @@ button {
   color: #ffffff;
   padding: 30px;
 }
-.header .logo {
+header .logo {
   font-family: "Lilita One", sans-serif;
   font-size: 20px;
   cursor: pointer;
 }
-.header .buttons button {
+header .buttons button {
   border-radius: 30px;
   padding: 8px 18px;
   font-size: 13px;
   cursor: pointer;
 }
-.header .buttons .login-btn {
-  margin-left: 5px;
+header .buttons .user-info {
+  display: flex;
+  align-items: center;
+}
+header .buttons .user-info .username {
+  margin-right: 12px;
+}
+header .buttons .user-info .logout-btn {
+  background-color: rgba(255, 255, 255, 0.1254901961);
+  color: #ffffff;
+  border: none;
+}
+header .buttons .login-btn {
+  margin-left: 7px;
   background-color: transparent;
   color: #ffffff;
   border: 1px solid #ffffff;
 }
-.header .buttons .signup-btn {
+header .buttons .signup-btn {
   background-color: #ffffff;
+  border: none;
 }
 
 .page {
@@ -119,6 +144,7 @@ button {
   padding: 10px 0px;
   border-radius: 30px;
   font-size: 14px;
+  cursor: pointer;
 }
 .page .category-section .category-wrapper ul li p {
   height: 16px;
@@ -378,4 +404,22 @@ footer .footer-copyright p {
   color: #F55466;
   margin-left: 10px;
   cursor: pointer;
+}
+.login-signup-style .error-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 15px;
+  font-size: 14px;
+}
+.login-signup-style .error-message .error {
+  width: 90%;
+  display: flex;
+  align-items: center;
+  color: #f92c44;
+}
+.login-signup-style .error-message .error svg {
+  color: #EC011C;
+  margin-right: 3px;
 }/*# sourceMappingURL=App.css.map */

@@ -7,8 +7,21 @@ button {
     font-family: $text-font;
 }
 
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+
+    .text-loading {
+        margin-left: 10px;
+        font-size: 18px;
+        color: $white;
+    }
+}
+
 //Nav
-.header {
+header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -27,8 +40,22 @@ button {
             @include mobile-button;
         }
 
+        .user-info {
+            display: flex;
+            align-items: center;
+
+            .username {
+                margin-right: 12px;
+            }
+            .logout-btn {
+                background-color: $transparent-white;
+                color: $white;
+                border: none;
+            }
+        }
+
         .login-btn {
-            margin-left: 5px;
+            margin-left: 7px;
             background-color: transparent;
             color: $white;
             border: 1px solid $white;
@@ -36,7 +63,7 @@ button {
 
         .signup-btn {
             background-color: $white;
-
+            border: none;
         }
     }
 }
@@ -97,6 +124,7 @@ button {
                 padding: 10px 0px;
                 border-radius: 30px;
                 font-size: 14px;
+                cursor: pointer;
 
                 p {
                    height: 16px;
@@ -380,4 +408,24 @@ footer {
             }
         }
     }
+
+    .error-message {
+        @include flex-center;
+        width: 100%;
+        margin-top: 15px;
+        font-size: 14px;
+        
+        .error {
+            width: 90%;
+            display: flex;
+            align-items: center;
+            color:#f92c44;
+
+            svg {
+                color: $red;
+                margin-right: 3px;
+            }
+        }
+    }
+    
 }

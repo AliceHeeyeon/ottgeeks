@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import axios from "axios";
+import { useAuthContext } from "../hooks/useAuthContext";
+
+//icons
 import { FaStar } from "react-icons/fa6";
 import { FaRegStarHalfStroke } from "react-icons/fa6";
+
+//loading spinner
+import CircularProgress from '@mui/material/CircularProgress';
 
 const baseUrl = import.meta.env.VITE_BASEURL;
 
@@ -11,44 +17,108 @@ const SingleMovie = () => {
     const {id} = useParams();
     const [movie, setMovie] = useState(null);
     const [reviews, setReviews] = useState("");
-    const [user, setUser] = useState(null)
+    const [newReview, setNewReview] = useState("");
+    const [newRating, setNewRating] = useState("");
     const [loading, setLoading] = useState(true);
+    const { user } = useAuthContext();
+   
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
 
+            try {
+                const [movieResponse, reviewResponse, userResponse] = await axios.all([
+                    axios.get(`${baseUrl}/movies/${id}`),
+                    axios.get(`${baseUrl}/reviews`),
+                    axios.get(`${baseUrl}/users`)
+                ]);
+
+                setMovie(movieResponse.data);
+
+                const filteredReviews = reviewResponse.data.filter(review => review.movie_id === movieResponse.data.id);
+                const reviewsWithUserNames = filteredReviews.map(review => {
+                    const user = userResponse.data.find(user => user.id === review.user_id);
+                    return {
+                        ...review,
+                        userName: user ? user.username : "Unknown"
+                    };
+                });
+
+                setReviews(reviewsWithUserNames);
+
+                setTimeout(() => { setLoading(false) }, 1000); 
+            } catch (err) {
+                console.log(err);
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [id]);
 
     useEffect(() => {
-        setLoading(true)
-        const fetchMovie = axios.get(`${baseUrl}/movies/${id}`)
-        const fetchReview = axios.get(`${baseUrl}/reviews`)
-        const fetchUser = axios.get(`${baseUrl}/users`)
+        if (reviews.length > 0) {
+            const fetchReviews = async () => {
+                try {
+                    const reviewResponse = await axios.get(`${baseUrl}/reviews`);
+                    const userResponse = await axios.get(`${baseUrl}/users`);
 
-        axios.all([fetchMovie, fetchReview, fetchUser])
-        .then(axios.spread((...responses) => {
-            const movieResponse = responses[0]
-            const reviewResponse = responses[1]
-            const userResponse = responses[2]
-            setMovie(movieResponse.data)
+                    const filteredReviews = reviewResponse.data.filter(review => review.movie_id === movie.id);
+                    const reviewsWithUserNames = filteredReviews.map(review => {
+                        const user = userResponse.data.find(user => user.id === review.user_id);
+                        return {
+                            ...review,
+                            userName: user ? user.username : "Unknown"
+                        };
+                    });
 
-            const filteredReviews = reviewResponse.data.filter(review => review.movie_id === movieResponse.data.id);
+                    setReviews(reviewsWithUserNames);
+                } catch (err) {
+                    console.log(err);
+                }
+            };
 
-            const reviewsWithUserNames = filteredReviews.map(review => {
-                const user = userResponse.data.find(user => user.id === review.user_id);
-                const reviewWithUserName = {
-                    ...review,
-                    userName: user ? user.username : "Unknown"
-                };
-                return reviewWithUserName;
-            });
-            setReviews(reviewsWithUserNames);
-            setLoading(false)
-        }))
-        .catch((err) => {
-            console.log(err);
-            setLoading(false)
-        })
-    },[id])
+            fetchReviews();
+        }
+    }, [reviews.length]);
+
+    const handleReviewSubmit = async(e) => {
+        e.preventDefault();
+        if (!newReview || !newRating) return;
+
+        try {
+            await axios.post(`${baseUrl}/reviews`, 
+                {
+                    user_id: user.user.id,
+                    movie_id: movie.id,
+                    review: newReview,
+                    rating: newRating
+                }
+            );
+                setNewReview("");
+                setNewRating("");
+
+                setReviews(prevReviews => [...prevReviews, {}]);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     if (loading) {
-        return <div>Loading...</div>;  
+        return (
+            <div className="loading">
+                <svg width={0} height={0}>
+                    <defs>
+                    <linearGradient id="my_gradient">
+                        <stop offset="0%" stopColor="#EC011C" />
+                        <stop offset="100%" stopColor="#F55466" />
+                    </linearGradient>
+                    </defs>
+                </svg>
+                <CircularProgress sx={{'svg circle': { stroke: 'url(#my_gradient)' } }} />
+                <p className="text-loading">Loading</p>
+            </div>
+        )
     }
 
     const getStars = (rating) => {
@@ -104,7 +174,7 @@ const SingleMovie = () => {
         
         {reviews.length > 0 ? (
             reviews.map(review => (
-                <div className="review-container" key={review.id}>
+                <div className="review-container" key={review.review}>
                     <div className="review-box">
                         <p className="review-name">{review.userName}</p>
                         <p className="review-rating">{getStars(review.rating)}<span>{review.rating}</span></p>
@@ -118,7 +188,7 @@ const SingleMovie = () => {
         )}
       </div>
 
-      <div className="write-movie-review">
+      <form className="write-movie-review" onSubmit={handleReviewSubmit}>
         <h4 className="title-style">Write a Review</h4>
         <div className="review-input-box">
             <div className="input-rating input-style">
@@ -131,6 +201,8 @@ const SingleMovie = () => {
                     step="0.1"
                     min="1"
                     max="5"
+                    value={newRating}
+                    onChange={(e) => setNewRating(e.target.value)}
                 />
             </div>
             <div className="input-text input-style">
@@ -140,6 +212,8 @@ const SingleMovie = () => {
                 <textarea
                     type="text"
                     placeholder="Thanks for helping other geekers!"
+                    value={newReview}
+                    onChange={(e) => setNewReview(e.target.value)}
                 />
             </div>
             <div className="review-submit-btn">
@@ -154,7 +228,7 @@ const SingleMovie = () => {
             </div>
             
         </div>
-      </div>
+      </form>
 
     </div>
   )

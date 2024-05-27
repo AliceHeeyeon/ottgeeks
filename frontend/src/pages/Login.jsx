@@ -1,9 +1,24 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLogin } from '../hooks/useLogin';
+import { PiWarningFill } from "react-icons/pi";
 
 const Login = () => {
     const navigate = useNavigate();
+
+    // state for login
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const { login, isLoading, error } = useLogin();
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+  
+      await login(email, password);
+    };
+
   return (
-    <div className="Login-page login-signup-style">
+    <form className="Login-page login-signup-style" onSubmit={handleSubmit}>
       <div className="image-box">
         <img src="./login-img.svg" alt="login" />
       </div>
@@ -13,17 +28,21 @@ const Login = () => {
             <input 
                 type="email"
                 placeholder="Email"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
             />
         </div>
         <div className="input-box">
             <input 
-                type="text"
+                type="password"
                 placeholder="Password"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
             />
         </div>
       </div>
       <div className="login-btn-box">
-        <button>Login</button>
+        <button disabled={isLoading}>Login</button>
       </div>
       <div className="link-to-otherway">
         <div className="otherway-contents">
@@ -35,7 +54,10 @@ const Login = () => {
             </span>
         </div>
       </div>
-    </div>
+      <div className="error-message">
+        {error && <div className="error"><PiWarningFill />{error}</div>}
+      </div>
+    </form>
   )
 }
 
