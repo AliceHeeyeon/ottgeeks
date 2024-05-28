@@ -23,38 +23,37 @@ const SingleMovie = () => {
     const { user } = useAuthContext();
    
     useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
+        setLoading(true)
+        const fetchMovie = axios.get(`${baseUrl}/movies/${id}`)
+        const fetchReview = axios.get(`${baseUrl}/reviews`)
+        const fetchUser = axios.get(`${baseUrl}/users`)
 
-            try {
-                const [movieResponse, reviewResponse, userResponse] = await axios.all([
-                    axios.get(`${baseUrl}/movies/${id}`),
-                    axios.get(`${baseUrl}/reviews`),
-                    axios.get(`${baseUrl}/users`)
-                ]);
+        axios.all([fetchMovie, fetchReview, fetchUser])
+        .then(axios.spread((...responses) => {
+            const movieResponse = responses[0]
+            const reviewResponse = responses[1]
+            const userResponse = responses[2]
+            setMovie(movieResponse.data)
 
-                setMovie(movieResponse.data);
+            const filteredReviews = reviewResponse.data.filter(review => review.movie_id === movieResponse.data.id);
 
-                const filteredReviews = reviewResponse.data.filter(review => review.movie_id === movieResponse.data.id);
-                const reviewsWithUserNames = filteredReviews.map(review => {
-                    const user = userResponse.data.find(user => user.id === review.user_id);
-                    return {
-                        ...review,
-                        userName: user ? user.username : "Unknown"
-                    };
-                });
+            const reviewsWithUserNames = filteredReviews.map(review => {
+                const user = userResponse.data.find(user => user.id === review.user_id);
+                const reviewWithUserName = {
+                    ...review,
+                    userName: user ? user.username : "Unknown"
+                };
+                return reviewWithUserName;
+            });
+            setReviews(reviewsWithUserNames);
+            setTimeout(() => { setLoading(false) }, 500);
+        }))
+        .catch((err) => {
+            console.log(err);
+            setLoading(false)
+        })
+    },[id])
 
-                setReviews(reviewsWithUserNames);
-
-                setTimeout(() => { setLoading(false) }, 1000); 
-            } catch (err) {
-                console.log(err);
-                setLoading(false);
-            }
-        };
-
-        fetchData();
-    }, [id]);
 
     useEffect(() => {
         if (reviews.length > 0) {
@@ -154,81 +153,84 @@ const SingleMovie = () => {
         </div>
       </div>
 
-      <div className="movie-details">
-        <div className="genre details">
-            <h4 className="detail-title title-style">Genre</h4>
-            <p className="detail-contents">{movie.genre}</p>
+      <div className="movie-information-box">
+        <div className="movie-details">
+            <div className="genre details">
+                <h4 className="detail-title title-style">Genre</h4>
+                <p className="detail-contents">{movie.genre}</p>
+            </div>
+            <div className="director details">
+                <h4 className="detail-title title-style">Director</h4>
+                <p className="detail-contents">{movie.director}</p>
+            </div>
+            <div className="synopsis details">
+                <h4 className="detail-title title-style">Synopsis</h4>
+                <p className="detail-contents">{movie.description}</p>
+            </div>
         </div>
-        <div className="director details">
-            <h4 className="detail-title title-style">Director</h4>
-            <p className="detail-contents">{movie.director}</p>
-        </div>
-        <div className="synopsis details">
-            <h4 className="detail-title title-style">Synopsis</h4>
-            <p className="detail-contents">{movie.description}</p>
-        </div>
-      </div>
 
-      <div className="movie-reviews">
-        <h4 className="title-style">Reviews</h4>
-        
-        {reviews.length > 0 ? (
-            reviews.map(review => (
-                <div className="review-container" key={review.review}>
-                    <div className="review-box">
-                        <p className="review-name">{review.userName}</p>
-                        <p className="review-rating">{getStars(review.rating)}<span>{review.rating}</span></p>
-                    </div>
-                   
-                    <p className="review-text">{review.review}</p>
-                </div>
-            ))
-        ) : (
-            <p>No reviews for this movie.</p>
-        )}
-      </div>
-
-      <form className="write-movie-review" onSubmit={handleReviewSubmit}>
-        <h4 className="title-style">Write a Review</h4>
-        <div className="review-input-box">
-            <div className="input-rating input-style">
-                <div className="label">
-                    <label>Rating</label>
-                </div>
-                <input
-                    type="number"
-                    placeholder="Out of 5"
-                    step="0.1"
-                    min="1"
-                    max="5"
-                    value={newRating}
-                    onChange={(e) => setNewRating(e.target.value)}
-                />
-            </div>
-            <div className="input-text input-style">
-                <div className="label">
-                    <label>Review</label>
-                </div>
-                <textarea
-                    type="text"
-                    placeholder="Thanks for helping other geekers!"
-                    value={newReview}
-                    onChange={(e) => setNewReview(e.target.value)}
-                />
-            </div>
-            <div className="review-submit-btn">
-               {!user ? 
-                 <button
-                 onClick = {() => navigate('/login')}
-                >
-                 Login to Submit
-                </button> :
-                <button>Submit</button>
-               }
-            </div>
+        <div className="movie-reviews">
+            <h4 className="title-style">Reviews</h4>
             
+            {reviews.length > 0 ? (
+                reviews.map(review => (
+                    <div className="review-container" key={review.review}>
+                        <div className="review-box">
+                            <p className="review-name">{review.userName}</p>
+                            <p className="review-rating">{getStars(review.rating)}<span>{review.rating}</span></p>
+                        </div>
+                    
+                        <p className="review-text">{review.review}</p>
+                    </div>
+                ))
+            ) : (
+                <p>No reviews for this movie.</p>
+            )}
         </div>
-      </form>
+
+        <form className="write-movie-review" onSubmit={handleReviewSubmit}>
+            <h4 className="title-style">Write a Review</h4>
+            <div className="review-input-box">
+                <div className="input-rating input-style">
+                    <div className="label">
+                        <label>Rating</label>
+                    </div>
+                    <input
+                        type="number"
+                        placeholder="Out of 5"
+                        step="0.1"
+                        min="1"
+                        max="5"
+                        value={newRating}
+                        onChange={(e) => setNewRating(e.target.value)}
+                    />
+                </div>
+                <div className="input-text input-style">
+                    <div className="label">
+                        <label>Review</label>
+                    </div>
+                    <textarea
+                        type="text"
+                        placeholder="Thanks for helping other geekers!"
+                        value={newReview}
+                        onChange={(e) => setNewReview(e.target.value)}
+                    />
+                </div>
+                <div className="review-submit-btn">
+                {!user ? 
+                    <button
+                    onClick = {() => navigate('/login')}
+                    >
+                    Login to Submit
+                    </button> :
+                    <button>Submit</button>
+                }
+                </div>
+                
+            </div>
+        </form>
+      </div>
+      
 
     </div>
   )

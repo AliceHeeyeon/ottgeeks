@@ -24,6 +24,13 @@ $text-font: "Oxanium", sans-serif;
     cursor: pointer;
 }
 
+@mixin desktop-button {
+    border-radius: 30px;
+    padding: 8px 23px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
 @mixin flex-center {
     display: flex;
     align-items: center;

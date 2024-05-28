@@ -13,7 +13,6 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
       e.preventDefault();
-  
       await login(email, password);
     };
 
@@ -22,40 +21,43 @@ const Login = () => {
       <div className="image-box">
         <img src="./login-img.svg" alt="login" />
       </div>
-      <h4>Welcome Back</h4>
-      <div className="user-input-box">
-        <div className="input-box">
-            <input 
-                type="email"
-                placeholder="Email"
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
-            />
+
+      <div className="input-container">
+        <h4>Welcome Back</h4>
+        <div className="user-input-box">
+          <div className="input-box">
+              <input 
+                  type="email"
+                  placeholder="Email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  value={email}
+              />
+          </div>
+          <div className="input-box">
+              <input 
+                  type="password"
+                  placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  value={password}
+              />
+          </div>
         </div>
-        <div className="input-box">
-            <input 
-                type="password"
-                placeholder="Password"
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-            />
+        <div className="login-btn-box">
+          <button disabled={isLoading}>Login</button>
         </div>
-      </div>
-      <div className="login-btn-box">
-        <button disabled={isLoading}>Login</button>
-      </div>
-      <div className="link-to-otherway">
-        <div className="otherway-contents">
-            <p>Don't have an account?</p>
-            <span
-                onClick={() => navigate('/signup')}
-            >
-                Sign up here
-            </span>
+        <div className="link-to-otherway">
+          <div className="otherway-contents">
+              <p>Don't have an account?</p>
+              <span
+                  onClick={() => navigate('/signup')}
+              >
+                  Sign up here
+              </span>
+          </div>
         </div>
-      </div>
-      <div className="error-message">
-        {error && <div className="error"><PiWarningFill />{error}</div>}
+        <div className="error-message">
+          {error && <div className="error"><PiWarningFill />{error}</div>}
+        </div>
       </div>
     </form>
   )

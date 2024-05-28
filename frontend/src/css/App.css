@@ -388,6 +388,7 @@ footer .footer-copyright p {
   border: none;
   background-color: #EC011C;
   color: #ffffff;
+  cursor: pointer;
 }
 .login-signup-style .link-to-otherway {
   display: flex;
@@ -422,4 +423,316 @@ footer .footer-copyright p {
 .login-signup-style .error-message .error svg {
   color: #EC011C;
   margin-right: 3px;
+}
+
+@media screen and (min-width: 992px) {
+  header {
+    padding: 30px 50px;
+  }
+  header .logo {
+    font-family: "Lilita One", sans-serif;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  header .buttons .logo {
+    font-size: 26px;
+  }
+  header .buttons button {
+    border-radius: 30px;
+    padding: 8px 23px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  header .buttons .user-info .username {
+    margin-right: 15px;
+    font-size: 18px;
+    height: 17px;
+  }
+  .page {
+    padding-inline: 50px;
+  }
+  .page .hero-section {
+    display: grid;
+    grid-template-columns: 1fr 1.7fr;
+    align-items: center;
+    gap: 20px;
+  }
+  .page .hero-section .hero-box {
+    display: flex;
+    align-items: center;
+  }
+  .page .hero-section .hero-box h2 {
+    top: 30px;
+    left: 40px;
+    font-size: 27px;
+  }
+  .page .hero-section .hero-box img {
+    height: 260px;
+  }
+  .page .hero-section .hero-box button {
+    bottom: 30px;
+    right: 30px;
+    border-radius: 30px;
+    padding: 8px 23px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .page .hero-section .hero1 {
+    margin-bottom: 0px;
+  }
+  .page .category-section .category-wrapper ul {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 0px;
+  }
+  .page .category-section .category-wrapper ul li {
+    padding: 17px 0px;
+    font-size: 17px;
+    width: 100%;
+  }
+  .page .category-section .category-wrapper ul li p {
+    height: 18px;
+  }
+  .page .category-section .category-wrapper ul li svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+  }
+  .page .movie-container {
+    overflow: hidden;
+    padding-bottom: 50px;
+  }
+  .page .movie-section {
+    overflow: hidden;
+    scroll-behavior: smooth;
+  }
+  .page .movie-section .movie-wrapper {
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 10px;
+  }
+  .page .movie-section .movie-wrapper .movie-box img {
+    width: 220px;
+    height: 310px;
+    -o-object-fit: cover;
+       object-fit: cover;
+    cursor: pointer;
+  }
+  footer {
+    background-color: rgba(255, 255, 255, 0.1254901961);
+    color: white;
+    padding: 20px 30px;
+  }
+  footer .footer-menu {
+    display: none;
+  }
+  footer .footer-social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+  }
+  footer .footer-social svg {
+    width: 30px;
+    height: 30px;
+  }
+  footer .footer-copyright {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+  }
+  footer .footer-copyright p {
+    font-size: 13px;
+  }
+  .single-page {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+  }
+  .single-page .movie-poster {
+    display: flex;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 0px 70px;
+    border-bottom: none;
+    border-right: 1px solid #191919;
+  }
+  .single-page .movie-poster .singleMovie-image img {
+    width: 300px;
+    max-height: 500px;
+  }
+  .single-page .movie-poster .singleMovie-text {
+    margin-top: 20px;
+  }
+  .single-page .movie-poster .singleMovie-text h2 {
+    font-size: 30px;
+  }
+  .single-page .movie-poster .singleMovie-text .movie-rating {
+    margin-top: 10px;
+  }
+  .single-page .movie-poster .singleMovie-text .movie-rating p {
+    font-size: 18px;
+    height: 20px;
+  }
+  .single-page .movie-poster .singleMovie-text .movie-rating .rating-stars {
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+  }
+  .single-page .movie-poster .singleMovie-text .movie-rating .rating-stars svg {
+    width: 20px;
+    height: 20px;
+  }
+  .single-page .movie-poster .singleMovie-text .movie-rating .rating-stars span {
+    margin-left: 10px;
+    font-size: 18px;
+    height: 17px;
+  }
+  .single-page .title-style {
+    font-size: 20px;
+  }
+  .single-page .movie-details {
+    padding: 20px 40px 30px;
+  }
+  .single-page .movie-details .details {
+    margin-top: 15px;
+  }
+  .single-page .movie-details .details .detail-title {
+    width: 200px;
+  }
+  .single-page .movie-details .details .detail-contents {
+    font-size: 18px;
+  }
+  .single-page .movie-reviews {
+    padding: 30px 40px 40px;
+  }
+  .single-page .movie-reviews .review-container {
+    margin-top: 23px;
+    font-size: 18px;
+  }
+  .single-page .movie-reviews .review-container .review-box {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .single-page .movie-reviews .review-container .review-box .review-rating {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+  }
+  .single-page .movie-reviews .review-container .review-box .review-rating span {
+    margin-left: 5px;
+  }
+  .single-page .movie-reviews .review-container .review-box .review-rating svg {
+    margin-bottom: 3px;
+    width: 19px;
+    height: 19px;
+  }
+  .single-page .movie-reviews .review-container .review-text {
+    line-height: 21px;
+  }
+  .single-page .write-movie-review {
+    padding: 30px 40px 40px;
+    border-bottom: 1px solid #191919;
+  }
+  .single-page .write-movie-review .review-input-box {
+    margin-top: 20px;
+  }
+  .single-page .write-movie-review .review-input-box .input-style {
+    display: flex;
+    align-items: flex-start;
+  }
+  .single-page .write-movie-review .review-input-box .input-style .label {
+    font-size: 19px;
+    width: 120px;
+  }
+  .single-page .write-movie-review .review-input-box .input-style textarea,
+  .single-page .write-movie-review .review-input-box .input-style input {
+    width: 100%;
+    font-size: 18px;
+  }
+  .single-page .write-movie-review .review-input-box .input-style textarea {
+    height: 150px;
+  }
+  .single-page .write-movie-review .review-input-box .input-text {
+    margin-top: 15px;
+  }
+  .single-page .write-movie-review .review-submit-btn button {
+    border-radius: 30px;
+    padding: 8px 23px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .login-signup-style {
+    display: flex;
+    width: 100%;
+    padding: 30px 100px 70px;
+    height: 80vh;
+  }
+  .login-signup-style .image-box {
+    flex: 1;
+  }
+  .login-signup-style .image-box img {
+    width: 380px;
+  }
+  .login-signup-style .input-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .login-signup-style h4 {
+    font-size: 30px;
+    text-align: center;
+    margin: 0px 0px 60px;
+  }
+  .login-signup-style .user-input-box {
+    margin-bottom: 15px;
+  }
+  .login-signup-style .user-input-box .input-box {
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .login-signup-style .user-input-box .input-box input {
+    height: 55px;
+    font-size: 18px;
+    padding-left: 30px;
+  }
+  .login-signup-style .login-btn-box {
+    margin-bottom: 30px;
+  }
+  .login-signup-style .login-btn-box button {
+    height: 50px;
+    font-size: 16px;
+  }
+  .login-signup-style .link-to-otherway {
+    font-size: 16px;
+  }
+  .login-signup-style .link-to-otherway .otherway-contents span {
+    margin-left: 12px;
+  }
+  .login-signup-style .error-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 15px;
+    font-size: 14px;
+  }
+  .login-signup-style .error-message .error {
+    width: 90%;
+    display: flex;
+    align-items: center;
+    color: #f92c44;
+  }
+  .login-signup-style .error-message .error svg {
+    color: #EC011C;
+    margin-right: 3px;
+  }
 }/*# sourceMappingURL=App.css.map */

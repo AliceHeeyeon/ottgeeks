@@ -8,12 +8,14 @@ const baseUrl = import.meta.env.VITE_BASEURL;
 export const useLogin = () => {
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(null);
+    const [alertMessage, setAlertMessage] = useState(null);
     const {dispatch} = useAuthContext();
     const navigate = useNavigate();
 
     const login = async (email, password) => {
         setIsLoading(true);
         setError(null);
+        setAlertMessage(null);
 
         if (!email || !password) {
             setError("Please enter valid information")
@@ -57,5 +59,5 @@ export const useLogin = () => {
         }
     };
 
-  return {login, isLoading, error}
+  return {login, isLoading, error};
 }

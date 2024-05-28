@@ -36,7 +36,7 @@ const Home = () => {
         const response = await axios.get(`${baseUrl}/movies`)
         setAllMovies(response.data);
         setFilteredMovies(response.data);
-        setTimeout(() => { setLoading(false) }, 1000);
+        setTimeout(() => { setLoading(false) }, 500);
         return () => clearTimeout(timeout);
       } catch (error) {
         console.error("Error fetching movies:", error);
