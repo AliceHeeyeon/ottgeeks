@@ -88,6 +88,7 @@ header .buttons .login-btn {
 }
 header .buttons .signup-btn {
   background-color: #ffffff;
+  color: #191919;
   border: none;
 }
 
