@@ -202,6 +202,7 @@ footer .footer-social {
 footer .footer-social svg {
   width: 30px;
   height: 30px;
+  color: #ffffff;
 }
 footer .footer-copyright {
   display: flex;
