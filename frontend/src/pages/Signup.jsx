@@ -22,7 +22,7 @@ const Signup = () => {
       </div>
 
       <div className="input-container">
-        <h4>Become a geeker</h4>
+        <h4>Become a Geek</h4>
         <div className="user-input-box">
           <div className="input-box">
             <input 

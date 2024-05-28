@@ -211,7 +211,7 @@ const SingleMovie = () => {
                     </div>
                     <textarea
                         type="text"
-                        placeholder="Thanks for helping other geekers!"
+                        placeholder="Thanks for helping other geeks!"
                         value={newReview}
                         onChange={(e) => setNewReview(e.target.value)}
                     />
