@@ -376,6 +376,7 @@ footer .footer-copyright p {
   border-radius: 30px;
   border: none;
   padding-left: 25px;
+  font-size: 14px;
 }
 .login-signup-style .login-btn-box {
   display: flex;
@@ -390,6 +391,7 @@ footer .footer-copyright p {
   border: none;
   background-color: #EC011C;
   color: #ffffff;
+  font-size: 14px;
   cursor: pointer;
 }
 .login-signup-style .link-to-otherway {
