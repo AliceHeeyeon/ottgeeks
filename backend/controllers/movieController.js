@@ -16,6 +16,7 @@ export async function getMovies(req, res) {
         res.json(rows);
     } catch (error) {
         console.error('Error querying the database:', error);
+        console.log(error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
